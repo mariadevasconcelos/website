@@ -12,7 +12,7 @@ import './reset.css';
 /* * */
 
 export const metadata = {
-	title: 'react-pdf sample page',
+	title: 'Maria de Vasconcelos | Portfolio',
 };
 
 /* * */
