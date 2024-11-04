@@ -10,7 +10,7 @@ import styles from './page.module.css';
 
 /* * */
 
-const DOC_PRFIX = 'portfolio-mv-v1';
+const DOC_PRFIX = 'portfolio-mv';
 
 const PAGE_COUNT = 90;
 
