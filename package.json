@@ -1,7 +1,7 @@
 {
-	"name": "react-pdf-sample-page-next",
-	"version": "4.0.0",
-	"description": "A sample page for React-PDF.",
+	"name": "@mariadevasconcelos/website",
+	"version": "1.0.0",
+	"description": "My Portfolio",
 	"license": "MIT",
 	"private": true,
 	"type": "module",
@@ -15,7 +15,6 @@
 		"@mantine/core": "7.13.4",
 		"@mantine/hooks": "7.13.4",
 		"@tabler/icons-react": "3.21.0",
-		"@vercel/analytics": "1.3.2",
 		"@wojtekmaj/react-hooks": "1.21.0",
 		"next": "15.0.2",
 		"react": "18.3.1"
