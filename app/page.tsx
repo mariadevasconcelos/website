@@ -31,17 +31,17 @@ export default function Page() {
 		// Special case for first page
 		if (currentPage <= 0) return null;
 		// For all other pages
-		return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage}.jpg`;
+		return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage}.png`;
 		//
 	}, [currentPage]);
 
 	const rightPageUrl = useMemo(() => {
 		// Special case for first page
-		if (currentPage === 0) return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage}.jpg`;
+		if (currentPage === 0) return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage}.png`;
 		// Special case for last page
 		if (currentPage === PAGE_COUNT) return null;
 		// For all other pages
-		return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage + 1}.jpg`;
+		return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage + 1}.png`;
 		//
 	}, [currentPage]);
 
