@@ -4,7 +4,7 @@
 
 import { Image } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './page.module.css';
 
@@ -22,47 +22,67 @@ export default function Page() {
 	//
 	// A. Setup variables
 
-	const [currentPage, setCurrentPage] = useState(0);
+	const [currentLeftPage, setCurrentLeftPage] = useState<number>(-1);
+	const [isPortraitMode, setIsPortraitMode] = useState(true);
 
 	//
 	// B. Transform data
 
-	const leftPageUrl = useMemo(() => {
-		// Special case for first page
-		if (currentPage <= 0) return null;
-		// For all other pages
-		return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage}.png`;
-		//
-	}, [currentPage]);
-
-	const rightPageUrl = useMemo(() => {
-		// Special case for first page
-		if (currentPage === 0) return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage}.png`;
-		// Special case for last page
-		if (currentPage === PAGE_COUNT) return null;
-		// For all other pages
-		return `/${DOC_PRFIX}/${DOC_PRFIX}-${currentPage + 1}.png`;
-		//
-	}, [currentPage]);
+	useEffect(() => {
+		const handleResize = () => {
+			setIsPortraitMode(window.innerWidth < window.innerHeight);
+		};
+		window.addEventListener('resize', handleResize);
+		handleResize();
+		return () => window.removeEventListener('resize', handleResize);
+	});
 
 	//
 	// C. Handle actions
 
 	function handleReducePage() {
-		// Special case for first page
-		if (currentPage <= 0) return;
-		// For all other pages
-		else setCurrentPage(prev => (prev - 2));
+		//
+		if (isPortraitMode) {
+			//
+			if (currentLeftPage <= 0) {
+				setCurrentLeftPage(0);
+				return;
+			}
+			setCurrentLeftPage(prev => prev - 1);
+			return;
+			//
+		}
+		else {
+			if (currentLeftPage <= 0) {
+				setCurrentLeftPage(-1);
+				return;
+			}
+			setCurrentLeftPage(prev => prev - 2);
+			return;
+		}
 		//
 	}
 
 	function handleIncreasePage() {
-		// Special case for first page
-		if (currentPage <= 0) setCurrentPage(1);
-		// Special case for last page
-		else if (currentPage >= PAGE_COUNT) return;
-		// For all other pages
-		else setCurrentPage(prev => (prev + 2));
+		//
+		if (isPortraitMode) {
+			//
+			if (currentLeftPage >= PAGE_COUNT) {
+				setCurrentLeftPage(PAGE_COUNT);
+				return;
+			}
+			setCurrentLeftPage(prev => prev + 1);
+			return;
+			//
+		}
+		else {
+			if (currentLeftPage >= PAGE_COUNT) {
+				setCurrentLeftPage(PAGE_COUNT);
+				return;
+			}
+			setCurrentLeftPage(prev => prev + 2);
+			return;
+		}
 		//
 	}
 
@@ -79,28 +99,20 @@ export default function Page() {
 	// D. Render components
 
 	return (
-		<div className={styles.container}>
+		<div className={`${styles.container} ${isPortraitMode && styles.isPortraitMode}`}>
 
-			{leftPageUrl ? (
-				<div className={styles.arrowWrapper} onClick={handleReducePage}>
-					<IconChevronLeft size={30} />
-				</div>
-			) : (
-				<div className={styles.arrowWrapper} />
-			)}
-
-			<div className={styles.pageWrapper}>
-				{leftPageUrl ? <Image className={styles.pageLeft} src={leftPageUrl} /> : <div />}
-				{rightPageUrl ? <Image className={styles.pageRight} src={rightPageUrl} /> : <div />}
+			<div className={`${styles.arrowWrapper} ${styles.left}`} onClick={handleReducePage}>
+				{currentLeftPage >= 0 && <IconChevronLeft size={30} />}
 			</div>
 
-			{rightPageUrl ? (
-				<div className={styles.arrowWrapper} onClick={handleIncreasePage}>
-					<IconChevronRight size={30} />
-				</div>
-			) : (
-				<div className={styles.arrowWrapper} />
+			{currentLeftPage >= 0 ? <Image className={styles.page} src={`/${DOC_PRFIX}/${DOC_PRFIX}-${currentLeftPage}.png`} /> : <div />}
+			{!isPortraitMode && (
+				currentLeftPage < PAGE_COUNT ? <Image className={styles.page} src={`/${DOC_PRFIX}/${DOC_PRFIX}-${currentLeftPage + 1}.png`} /> : <div />
 			)}
+
+			<div className={`${styles.arrowWrapper} ${styles.right}`} onClick={handleIncreasePage}>
+				<IconChevronRight size={30} />
+			</div>
 
 		</div>
 	);

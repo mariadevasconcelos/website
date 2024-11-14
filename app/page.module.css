@@ -1,24 +1,19 @@
 .container {
-	position: relative;
-	display: flex;
-	flex-direction: row;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 	align-items: center;
 	justify-content: center;
-	width: 100vw;
-	height: 100vh;
-	background-color: #ebe9e6;
+	height: 90%;
+	padding: 50px 0;
 }
 
-.pageWrapper {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 1px;
-	height: 90vh;
-	aspect-ratio: 297 / 210;
+.isPortraitMode.container {
+	grid-template-columns: 1fr;
+	padding: 25px;
 }
 
-.pageLeft,
-.pageRight {
+.page {
 	box-shadow: 0 0 10px rgb(0 0 0 / 10%);
 }
 
@@ -34,4 +29,19 @@
 
 .arrowWrapper:hover {
 	color: #645a69;
+}
+
+
+.isPortraitMode .arrowWrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	width: 50vw;
+	height: 100vh;
+	opacity: 0;
+}
+
+.isPortraitMode .arrowWrapper.right {
+	left: 50vw;
 }
