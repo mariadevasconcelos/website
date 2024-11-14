@@ -37,6 +37,11 @@ export default function Page() {
 		return () => window.removeEventListener('resize', handleResize);
 	});
 
+	useEffect(() => {
+		if (isPortraitMode) setCurrentLeftPage(prev => prev + 1);
+		else setCurrentLeftPage(prev => prev - 1);
+	}, [isPortraitMode]);
+
 	//
 	// C. Handle actions
 
